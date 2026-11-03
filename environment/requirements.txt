@@ -1,0 +1,11 @@
+# Direct dependencies (Python 3.13). Versions used for the paper.
+jax==0.8.2
+jaxlib==0.8.2
+numpyro==0.19.0
+funsor==0.4.5
+numpy==2.4.0
+scipy==1.16.3
+pandas==2.2.3
+arviz==0.21.0
+matplotlib==3.10.1
+PyYAML==6.0.2

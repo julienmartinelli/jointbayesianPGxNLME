@@ -1,0 +1,35 @@
+# Prior hyperparameters (Figure 1(b) of the paper) and sampler settings.
+# Effects are on the log-clearance scale and every prior scales them by
+# omega_CL, so the values below refer to beta / omega_CL.
+
+sampler:
+  num_chains: 5
+  num_warmup: 3000
+  num_samples: 2000
+  target_accept_prob: 0.99
+  max_tree_depth: 14
+  init: sample            # random initialization drawn from the prior
+  # point-mass-spike-slab uses DiscreteHMCGibbs(NUTS, modified=True);
+  # the other priors use NUTS (continuous spike-and-slab enumerates z).
+
+# Per-prior changes to the sampler settings above. R2-D2 samples log-Gamma
+# variables with concentration alpha/p, whose standardized scale makes random
+# initialization overflow, so it starts from the prior mean as in the paper.
+sampler_overrides:
+  r2d2: {init: mean}
+
+designs:
+  p134:
+    point-mass-spike-slab: {theta_a: 2.0, theta_b: 70.0, slab_sd: 0.3}
+    spike-slab: {theta_a: 2.0, theta_b: 70.0, slab_sd: 0.3, spike_sd: 0.015}
+    l1-ball: {b_eta: 0.3, r_lambda: 1.6}
+    hierarchical-lasso: {scale_tau: 0.35, exp: 70.0}
+    horseshoe: {scale_global: 6.9e-4, nu_global: 1.0, nu_local: 1.0, slab_sd: 0.3, slab_df: 1.0}
+    r2d2: {a: 3.5, b: 397.0, alpha: 7.0}
+  p800:
+    point-mass-spike-slab: {theta_a: 2.0, theta_b: 318.0, slab_sd: 0.3}
+    spike-slab: {theta_a: 2.0, theta_b: 318.0, slab_sd: 0.3, spike_sd: 0.015}
+    l1-ball: {b_eta: 0.375, r_lambda: 0.6666666667}
+    hierarchical-lasso: {scale_tau: 0.2052, exp: 70.0}
+    horseshoe: {scale_global: 7.71e-5, nu_global: 1.0, nu_local: 1.0, slab_sd: 0.3, slab_df: 4.0}
+    r2d2: {a: 8.991225, b: 391.508775, alpha: 7.0}
